@@ -17,7 +17,7 @@ const App = () => {
   } 
   return (
     <div className='App'>
-      <BoardComponent />
+      <BoardComponent board={board} setBoard={setBoard} />
     </div>
   )
 }
