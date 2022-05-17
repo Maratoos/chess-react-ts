@@ -1,9 +1,12 @@
 import React from 'react'
 import './App.css'
+import BoardComponent from './components/BoardComponent'
 
 const App = () => {
   return (
-    <div className='App'>App</div>
+    <div className='App'>
+      <BoardComponent />
+    </div>
   )
 }
 
