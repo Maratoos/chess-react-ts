@@ -2,23 +2,29 @@ import React, { FC, useEffect, useState } from 'react'
 import { Board } from '../models/Board'
 import { Cell } from '../models/Cell'
 import { Figure } from '../models/figures/Figure'
+import { Player } from '../models/Player'
 import CellComponent from './CellComponent'
 
 interface BoardProps{
   board: Board,
-  setBoard: (board: Board) => void
+  setBoard: (board: Board) => void,
+  currentPlayer: Player | null,
+  swapPlayer: () => void
 }
 
-const BoardComponent: FC<BoardProps> = ({board, setBoard}) => {
+const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer}) => {
   const [selectedCell, setCelectedCell] = useState<Cell | null>(null)
 
   function click(cell: Cell) {
     if(selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
       selectedCell.moveFigure(cell)
+      swapPlayer()
       setCelectedCell(null)
       // updateBoard()
     } else {
-      setCelectedCell(cell)
+      if(cell.figure?.color === currentPlayer?.color) { 
+        setCelectedCell(cell) 
+      }
     }
   }
 
@@ -37,6 +43,8 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard}) => {
   }
 
   return (
+    <div>
+    <h3>Сейчас ход {currentPlayer?.color}</h3>
     <div className='board'>
       {board.cells.map((row, index) => 
       <React.Fragment key={index}>
@@ -50,6 +58,7 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard}) => {
       </React.Fragment>
       )}
     </div>
+  </div>
   )
 }
 
